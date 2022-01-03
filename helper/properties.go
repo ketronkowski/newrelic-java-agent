@@ -18,20 +18,33 @@ package helper
 
 import (
 	"fmt"
-	"github.com/paketo-buildpacks/libpak/bard"
 	"os"
 	"strconv"
+
+	"github.com/buildpacks/libcnb"
+	"github.com/paketo-buildpacks/libpak/bard"
+	"github.com/paketo-buildpacks/libpak/bindings"
 )
 
-type Newrelic struct {
-	Logger bard.Logger
+type Properties struct {
+	Bindings libcnb.Bindings
+	Logger   bard.Logger
 }
 
-func (n Newrelic) Execute() (map[string]string, error) {
+func (c Properties) Execute() (map[string]string, error) {
 
-	n.Logger.Info("Configuring New Relic environment variables")
+	c.Logger.Info("Configuring New Relic properties")
 
 	environment := make(map[string]string)
+
+	if b, ok, err := bindings.ResolveOne(c.Bindings, bindings.OfType("NewRelicAgent")); err != nil {
+		return nil, fmt.Errorf("unable to resolve single binding for NewRelicAgent\n%w", err)
+	} else if ok {
+		if p, ok := b.SecretFilePath("newRelicLicenseKey"); ok {
+			c.Logger.Info("Configuring New Relic Java Agent key")
+			environment["NEW_RELIC_LICENSE_KEY"] = p
+		}
+	}
 
 	if e, ok := os.LookupEnv("BPL_NEW_RELIC_AGENT_ENABLED"); ok {
 		enabled, err := strconv.ParseBool(e)
@@ -40,7 +53,7 @@ func (n Newrelic) Execute() (map[string]string, error) {
 		}
 		environment["NEW_RELIC_AGENT_ENABLED"] = fmt.Sprintf("%t", enabled)
 	} else {
-		return nil, fmt.Errorf("unable to find required environment variable BPL_NEW_RELIC_AGENT_ENABLED")
+		environment["NEW_RELIC_AGENT_ENABLED"] = "false"
 	}
 
 	if e, ok := os.LookupEnv("BPL_NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"); ok {
@@ -56,10 +69,5 @@ func (n Newrelic) Execute() (map[string]string, error) {
 		environment["NEW_RELIC_APP_NAME"] = name
 	}
 
-	if key, ok := os.LookupEnv("BPL_NEW_RELIC_LICENSE_KEY"); ok {
-		environment["NEW_RELIC_LICENSE_KEY"] = key
-	}
-
 	return environment, nil
-
 }

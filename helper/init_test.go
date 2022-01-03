@@ -25,7 +25,6 @@ import (
 
 func TestUnit(t *testing.T) {
 	suite := spec.New("helper", spec.Report(report.Terminal{}))
-	suite("Credentials", testCredentials)
-	suite("NewRelic", testNewRelic)
+	suite("Properties", testProperties)
 	suite.Run(t)
 }

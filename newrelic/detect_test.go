@@ -67,10 +67,10 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 				Plans: []libcnb.BuildPlan{
 					{
 						Provides: []libcnb.BuildPlanProvide{
-							{Name: "new-relic"},
+							{Name: "newrelic-java-agent"},
 						},
 						Requires: []libcnb.BuildPlanRequire{
-							{Name: "new-relic"},
+							{Name: "newrelic-java-agent"},
 							{Name: "jvm-application"},
 						},
 					},

@@ -36,7 +36,7 @@ func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error
 	}
 
 	if e, ok := cr.Resolve("BPL_NEW_RELIC_AGENT_ENABLED"); !ok {
-		return libcnb.DetectResult{Pass: true}, nil
+		return libcnb.DetectResult{Pass: false}, nil
 	} else {
 		enabled, err := strconv.ParseBool(e)
 		if err != nil {

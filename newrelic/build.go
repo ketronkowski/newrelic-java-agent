@@ -50,8 +50,6 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	}
 	dc.Logger = b.Logger
 
-	names := []string{"credentials"}
-
 	if _, ok, err := pr.Resolve("newrelic-java-agent"); err != nil {
 		return libcnb.BuildResult{}, fmt.Errorf("unable to resolve newrelic-java-agent plan entry\n%w", err)
 	} else if ok {
@@ -66,11 +64,9 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 		if be.Name != "" {
 			result.BOM.Entries = append(result.BOM.Entries, be)
 		}
-
-		names = append(names, "newrelic-java-agent")
 	}
 
-	h, be := libpak.NewHelperLayer(context.Buildpack, names...)
+	h, be := libpak.NewHelperLayer(context.Buildpack, "properties")
 	h.Logger = b.Logger
 	result.Layers = append(result.Layers, h)
 	if be.Name != "" {

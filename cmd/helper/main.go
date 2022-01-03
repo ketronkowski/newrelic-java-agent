@@ -32,19 +32,17 @@ func main() {
 		var (
 			err error
 			l   = bard.NewLogger(os.Stdout)
-			c   = helper.Credentials{Logger: l}
-			n   = helper.Newrelic{Logger: l}
+			p   = helper.Properties{Logger: l}
 		)
 
-		c.Bindings, err = libcnb.NewBindingsForLaunch()
+		p.Bindings, err = libcnb.NewBindingsForLaunch()
 
 		if err != nil {
 			return fmt.Errorf("unable to read bindings from environment\n%w", err)
 		}
 
 		return sherpa.Helpers(map[string]sherpa.ExecD{
-			"credentials": c,
-			"newrelic":    n,
+			"properties": p,
 		})
 	})
 }
