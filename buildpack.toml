@@ -21,8 +21,7 @@ api = "0.7"
   keywords = ["java", "new-relic"]
   name = "Paketo Java Application New Relic Agent Buildpack"
   sbom-formats = ["application/vnd.cyclonedx+json", "application/vnd.syft+json"]
-#  version = "{{.version}}"
-  version = "1.0.0"
+  version = "{{.version}}"
 
   [[buildpack.licenses]]
     type = "Apache-2.0"
