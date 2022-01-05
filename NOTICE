@@ -1,6 +1,6 @@
-azure-application-insights
+newrelic-java-agent
 
-Copyright (c) 2020-Present CloudFoundry.org Foundation, Inc. All Rights Reserved.
+Copyright (c) 2020-Present Kevin Tronkowski. All Rights Reserved.
 
 This project is licensed to you under the Apache License, Version 2.0 (the "License").
 You may not use this project except in compliance with the License.
