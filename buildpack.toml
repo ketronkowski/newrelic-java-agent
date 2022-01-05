@@ -32,6 +32,13 @@ api = "0.7"
   include-files = ["LICENSE", "NOTICE", "README.md", "bin/build", "bin/detect", "bin/helper", "bin/main", "buildpack.toml"]
   pre-package = "scripts/build.sh"
 
+
+  [[metadata.configurations]]
+    default = "false"
+    description = "enables the agent"
+    build = true
+    name = "BP_NEW_RELIC_AGENT_ENABLED"
+
   [[metadata.dependencies]]
     cpes = ["cpe:2.3:a:newrelic:java-agent:7.4.3:*:*:*:*:*:*:*"]
     id = "newrelic-java-agent"
@@ -50,8 +57,3 @@ api = "0.7"
 [[stacks]]
   id = "io.buildpacks.stacks.bionic"
 
-[[stacks]]
-  id = "io.paketo.stacks.tiny"
-
-[[stacks]]
-  id = "*"

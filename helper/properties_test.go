@@ -19,7 +19,6 @@ package helper_test
 import (
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/newrelic-java-agent/helper"
-	"os"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -43,19 +42,6 @@ func testProperties(t *testing.T, context spec.G, it spec.S) {
 	})
 
 	context("NEW_RELIC_AGENT_ENABLED=true", func() {
-		it.Before(func() {
-			Expect(os.Setenv("BPL_NEW_RELIC_AGENT_ENABLED", "true")).To(Succeed())
-		})
-
-		it.After(func() {
-			Expect(os.Unsetenv("BPL_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
-		})
-
-		it("correct value for $NEW_RELIC_AGENT_ENABLED", func() {
-			Expect(p.Execute()).To(Equal(map[string]string{
-				"NEW_RELIC_AGENT_ENABLED": "true",
-			}))
-		})
 
 		it("contributes credentials if NewRelic binding exists", func() {
 
@@ -69,8 +55,7 @@ func testProperties(t *testing.T, context spec.G, it spec.S) {
 			}
 
 			Expect(p.Execute()).To(Equal(map[string]string{
-				"NEW_RELIC_LICENSE_KEY":   "/test/path/test-binding/newRelicLicenseKey",
-				"NEW_RELIC_AGENT_ENABLED": "true",
+				"NEW_RELIC_LICENSE_KEY": "/test/path/test-binding/newRelicLicenseKey",
 			}))
 		})
 	})

@@ -17,7 +17,6 @@
 package newrelic_test
 
 import (
-	"fmt"
 	"github.com/paketo-buildpacks/newrelic-java-agent/newrelic"
 	"io/ioutil"
 	"os"
@@ -72,8 +71,6 @@ func testJavaAgent(t *testing.T, context spec.G, it spec.S) {
 
 		Expect(layer.Launch).To(BeTrue())
 		Expect(filepath.Join(layer.Path, "stub-newrelic-agent.jar")).To(BeARegularFile())
-		Expect(layer.LaunchEnvironment["JAVA_TOOL_OPTIONS.delim"]).To(Equal(" "))
-		Expect(layer.LaunchEnvironment["JAVA_TOOL_OPTIONS.append"]).To(Equal(fmt.Sprintf("-javaagent:%s",
-			filepath.Join(layer.Path, "stub-newrelic-agent.jar"))))
+		Expect(layer.LaunchEnvironment["NEW_RELIC_AGENT_ENABLED.default"]).To(Equal("true"))
 	})
 }

@@ -18,9 +18,6 @@ package helper
 
 import (
 	"fmt"
-	"os"
-	"strconv"
-
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak/bard"
 	"github.com/paketo-buildpacks/libpak/bindings"
@@ -32,9 +29,7 @@ type Properties struct {
 }
 
 func (c Properties) Execute() (map[string]string, error) {
-
 	c.Logger.Info("Configuring New Relic properties")
-
 	environment := make(map[string]string)
 
 	if b, ok, err := bindings.ResolveOne(c.Bindings, bindings.OfType("NewRelicAgent")); err != nil {
@@ -44,29 +39,6 @@ func (c Properties) Execute() (map[string]string, error) {
 			c.Logger.Info("Configuring New Relic Java Agent key")
 			environment["NEW_RELIC_LICENSE_KEY"] = p
 		}
-	}
-
-	if e, ok := os.LookupEnv("BPL_NEW_RELIC_AGENT_ENABLED"); ok {
-		enabled, err := strconv.ParseBool(e)
-		if err != nil {
-			return nil, fmt.Errorf("unable to parse BPL_NEW_RELIC_AGENT_ENABLED=$BPL_NEW_RELIC_AGENT_ENABLED\n%w", err)
-		}
-		environment["NEW_RELIC_AGENT_ENABLED"] = fmt.Sprintf("%t", enabled)
-	} else {
-		environment["NEW_RELIC_AGENT_ENABLED"] = "false"
-	}
-
-	if e, ok := os.LookupEnv("BPL_NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"); ok {
-		enabled, err := strconv.ParseBool(e)
-		if err != nil {
-			return nil, fmt.Errorf("unable to parse BPL_NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"+
-				"=$BPL_NEW_RELIC_DISTRIBUTED_TRACING_ENABLED\n%w", err)
-		}
-		environment["NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"] = fmt.Sprintf("%t", enabled)
-	}
-
-	if name, ok := os.LookupEnv("BPL_NEW_RELIC_APP_NAME"); ok {
-		environment["NEW_RELIC_APP_NAME"] = name
 	}
 
 	return environment, nil

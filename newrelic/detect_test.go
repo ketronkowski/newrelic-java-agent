@@ -34,17 +34,17 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		detect newrelic.Detect
 	)
 
-	it("Not detected without $BPL_NEW_RELIC_AGENT_ENABLED", func() {
+	it("Not detected without $BP_NEW_RELIC_AGENT_ENABLED", func() {
 		Expect(detect.Detect(ctx)).To(Equal(libcnb.DetectResult{Pass: false}))
 	})
 
-	context("Not detected with $BPL_NEW_RELIC_AGENT_ENABLED=false", func() {
+	context("Not detected with $BP_NEW_RELIC_AGENT_ENABLED=false", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BPL_NEW_RELIC_AGENT_ENABLED", "false")).To(Succeed())
+			Expect(os.Setenv("BP_NEW_RELIC_AGENT_ENABLED", "false")).To(Succeed())
 		})
 
 		it.After(func() {
-			Expect(os.Unsetenv("BPL_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
+			Expect(os.Unsetenv("BP_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
 		})
 
 		it("not detected", func() {
@@ -52,13 +52,13 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
-	context("Detected with $BPL_NEW_RELIC_AGENT_ENABLED=true", func() {
+	context("Detected with $BP_NEW_RELIC_AGENT_ENABLED=true", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BPL_NEW_RELIC_AGENT_ENABLED", "true")).To(Succeed())
+			Expect(os.Setenv("BP_NEW_RELIC_AGENT_ENABLED", "true")).To(Succeed())
 		})
 
 		it.After(func() {
-			Expect(os.Unsetenv("BPL_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
+			Expect(os.Unsetenv("BP_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
 		})
 
 		it("detected", func() {
@@ -79,13 +79,13 @@ func testDetect(t *testing.T, context spec.G, it spec.S) {
 		})
 	})
 
-	context("Fail with invalid $BPL_NEW_RELIC_AGENT_ENABLED value", func() {
+	context("Fail with invalid $BP_NEW_RELIC_AGENT_ENABLED value", func() {
 		it.Before(func() {
-			Expect(os.Setenv("BPL_NEW_RELIC_AGENT_ENABLED", "invalid")).To(Succeed())
+			Expect(os.Setenv("BP_NEW_RELIC_AGENT_ENABLED", "invalid")).To(Succeed())
 		})
 
 		it.After(func() {
-			Expect(os.Unsetenv("BPL_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
+			Expect(os.Unsetenv("BP_NEW_RELIC_AGENT_ENABLED")).To(Succeed())
 		})
 
 		it("failure", func() {

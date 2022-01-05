@@ -52,9 +52,11 @@ func (j JavaAgent) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 			return libcnb.Layer{}, fmt.Errorf("unable to copy %s to %s\n%w", artifact.Name(), file, err)
 		}
 		layer.LaunchEnvironment.Appendf("JAVA_TOOL_OPTIONS", " ", "-javaagent:%s", file)
+		layer.LaunchEnvironment.Default("NEW_RELIC_AGENT_ENABLED", "true")
 
 		return layer, nil
 	})
+
 }
 
 func (j JavaAgent) Name() string {

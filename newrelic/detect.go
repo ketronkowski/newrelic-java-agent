@@ -35,13 +35,13 @@ func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error
 		return libcnb.DetectResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
 	}
 
-	if e, ok := cr.Resolve("BPL_NEW_RELIC_AGENT_ENABLED"); !ok {
+	if e, ok := cr.Resolve("BP_NEW_RELIC_AGENT_ENABLED"); !ok {
 		return libcnb.DetectResult{Pass: false}, nil
 	} else {
 		enabled, err := strconv.ParseBool(e)
 		if err != nil {
 			return libcnb.DetectResult{Pass: false},
-				fmt.Errorf("unable to parse BPL_NEW_RELIC_AGENT_ENABLED=$BPL_NEW_RELIC_AGENT_ENABLED\n%w", err)
+				fmt.Errorf("unable to parse BP_NEW_RELIC_AGENT_ENABLED=%s\n%w", e, err)
 		} else if !enabled {
 			return libcnb.DetectResult{Pass: false}, nil
 		}
