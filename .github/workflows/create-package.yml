@@ -174,15 +174,6 @@ jobs:
                 RELEASE_TAG_NAME=$(jq -n -r --argjson PAYLOAD "${PAYLOAD}" '$PAYLOAD.release.tag_name')
                 RELEASE_NAME=$(jq -n -r --argjson PAYLOAD "${PAYLOAD}" '$PAYLOAD.release.name')
                 RELEASE_BODY=$(jq -n -r --argjson PAYLOAD "${PAYLOAD}" '$PAYLOAD.release.body')
-                
-                # for debug
-                echo $PAYLOAD
-                echo $RELEASE_ID
-                echo $RELEASE_TAG_NAME
-                echo $RELEASE_NAME
-                echo $RELEASE_BODY
-                
-                gh api "/repos/${IMAGE_NAME}/releases/${RELEASE_ID}"
 
                 gh api \
                   --method PATCH \
