@@ -176,7 +176,13 @@ jobs:
                 RELEASE_BODY=$(jq -n -r --argjson PAYLOAD "${PAYLOAD}" '$PAYLOAD.release.body')
                 
                 # for debug
-                env
+                echo $PAYLOAD
+                echo $RELEASE_ID
+                echo $RELEASE_TAG_NAME
+                echo $RELEASE_NAME
+                echo $RELEASE_BODY
+                
+                gh api "/repos/:owner/:repo/releases/${RELEASE_ID}"
 
                 gh api \
                   --method PATCH \
