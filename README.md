@@ -1,4 +1,4 @@
-# `gcr.io/paketo-buildpacks/newrelic-java-agent`
+# `ghcr.io/ketronkowski/newrelic-java-agent`
 The New Relic Java Agent Buildpack is a Cloud Native Buildpack that contributes the New Relic Java Agent and 
 configures the java application to use the agent.
 
