@@ -3,11 +3,20 @@ name: Create Package
     release:
         types:
             - published
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
 jobs:
     create-package:
         name: Create Package
         runs-on:
             - ubuntu-latest
+        permissions:
+          contents: read
+          packages: write
         steps:
             - name: Docker login ghcr.io
               if: ${{ (github.event_name != 'pull_request' || ! github.event.pull_request.head.repo.fork) && (github.actor != 'dependabot[bot]') }}
@@ -150,7 +159,7 @@ jobs:
                     --format "${FORMAT}"
                 fi
               env:
-                PACKAGE: ghcr.io/ktronkowski/newrelic-java-agent
+                PACKAGE: ${{ env.REGISTRY }}/ketronkowski/newrelic-java-agent
                 PUBLISH: "true"
                 VERSION: ${{ steps.version.outputs.version }}
             - name: Update release with digest
