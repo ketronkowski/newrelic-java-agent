@@ -159,7 +159,7 @@ jobs:
                     --format "${FORMAT}"
                 fi
               env:
-                PACKAGE: ${{ env.REGISTRY }}/ketronkowski/newrelic-java-agent
+                PACKAGE: ${{ env.REGISTRY }}/${{env.IMAGE_NAME}}
                 PUBLISH: "true"
                 VERSION: ${{ steps.version.outputs.version }}
             - name: Update release with digest
@@ -182,11 +182,11 @@ jobs:
                 echo $RELEASE_NAME
                 echo $RELEASE_BODY
                 
-                gh api "/repos/:owner/:repo/releases/${RELEASE_ID}"
+                gh api "/repos/${IMAGE_NAME}/releases/${RELEASE_ID}"
 
                 gh api \
                   --method PATCH \
-                  "/repos/:owner/:repo/releases/${RELEASE_ID}" \
+                  "/repos/${IMAGE_NAME}/releases/${RELEASE_ID}" \
                   --field "tag_name=${RELEASE_TAG_NAME}" \
                   --field "name=${RELEASE_NAME}" \
                   --field "body=${RELEASE_BODY//<!-- DIGEST PLACEHOLDER -->/\`${DIGEST}\`}"
