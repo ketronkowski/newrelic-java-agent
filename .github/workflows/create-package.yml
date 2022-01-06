@@ -183,7 +183,7 @@ jobs:
                   --field "body=${RELEASE_BODY//<!-- DIGEST PLACEHOLDER -->/\`${DIGEST}\`}"
               env:
                 DIGEST: ${{ steps.package.outputs.digest }}
-                GITHUB_TOKEN: ${{ secrets.JAVA_GITHUB_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - if: ${{ false }}
               uses: docker://ghcr.io/buildpacks/actions/registry/request-add-entry:4.5.0
               with:
