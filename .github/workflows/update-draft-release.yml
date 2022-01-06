@@ -179,7 +179,7 @@ jobs:
 
                 gh api \
                   --method PATCH \
-                  "/repos/:owner/:repo/releases/${RELEASE_ID}" \
+                  "/repos/${IMAGE_NAME}/releases/${RELEASE_ID}" \
                   --field "tag_name=${RELEASE_TAG_NAME}" \
                   --field "name=@${HOME}/name" \
                   --field "body=@${HOME}/body"
@@ -189,3 +189,4 @@ jobs:
                 RELEASE_ID: ${{ steps.release-drafter.outputs.id }}
                 RELEASE_NAME: ${{ steps.release-drafter.outputs.name }}
                 RELEASE_TAG_NAME: ${{ steps.release-drafter.outputs.tag_name }}
+                IMAGE_NAME: ${{ github.repository }}
